@@ -32,12 +32,14 @@ def get_cpu_load():
 
 def get_cpu_temp():
     v = _get_cpu_temperature()
+    print(v)
     _show_graph(v, g=0, b=0)
 
 class Blinker:
 
     def __init__(self, *args) -> None:
         self.views = [*args]
+        blinkt.set_brightness(0.1)
         blinkt.set_clear_on_exit()
 
     def show(self):
