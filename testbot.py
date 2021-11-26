@@ -38,7 +38,7 @@ async def get_rules(ctx, subject):
         await ctx.send(_get_rules("currency"))
 
 def _get_rules(file):
-    return _get_text("rules,", file)
+    return _get_text("rules", file)
 
 def _get_text(dir, file):
     with open(f'{dir}/{file}.txt') as f:
