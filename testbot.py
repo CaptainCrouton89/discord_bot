@@ -43,6 +43,6 @@ def _get_rules(file):
 def _get_text(dir, file):
     with open(f'{dir}/{file}.txt') as f:
         lines = f.readlines()
-    return lines
+    return "`" + str(lines) + "`"
 
 bot.run(TOKEN)
