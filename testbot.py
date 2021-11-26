@@ -1,6 +1,9 @@
 import os
 import discord
 from discord.ext import commands
+import pilights
+from pilights import templates as pil_tmp
+
 
 TOKEN = 'OTEzNTc5NzcyOTMwNTcyMzM4.YaAjdw.rwtMNy1zGdQCrdRHelhpwtnbeo0'
 
@@ -47,4 +50,5 @@ def _get_text(dir, file):
     lines = str(lines).replace(r'\n', "\n".replace(r'\t', "    "))
     return "```" + lines.strip("[]") + "```"
 
+blinker = pilights.Blinker(.1, pil_tmp.DEFAULT)
 bot.run(TOKEN)
