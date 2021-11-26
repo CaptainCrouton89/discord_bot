@@ -51,5 +51,5 @@ class Blinker:
 
 
 if __name__ == '__main__':
-    blinker = Blinker(sys.argv[0], get_cpu_load, get_cpu_temp)
+    blinker = Blinker(int(sys.argv[0]), get_cpu_load, get_cpu_temp)
     blinker.show()
