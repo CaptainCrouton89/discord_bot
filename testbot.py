@@ -35,12 +35,12 @@ async def get_rules(ctx, subject):
     if subject == "all":
         await ctx.send("https://drive.google.com/file/d/1dxcwnfamLW_zkCMTr0z1o3g2evCAQcen/view?usp=sharing")
     elif subject == "currency":
-        await ctx.send(get_rules("currency"))
+        await ctx.send(_get_rules("currency"))
 
-def get_rules(file):
-    return get_text("rules,", file)
+def _get_rules(file):
+    return _get_text("rules,", file)
 
-def get_text(dir, file):
+def _get_text(dir, file):
     with open(f'{dir}/{file}.txt') as f:
         lines = f.readlines()
     return lines
