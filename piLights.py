@@ -32,7 +32,6 @@ def get_cpu_load():
 
 def get_cpu_temp():
     v = _get_cpu_temperature() / 70.0
-    print(v)
     _show_graph(v, g=0, b=0)
 
 class Blinker:
