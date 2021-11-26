@@ -51,7 +51,7 @@ class Blinker:
         self.views[mode_name] = [*views]
 
     def show(self):
-        blink_thread = threading.Thread(target=self._show) # Make sure we don't wait indefinitely after script ends
+        blink_thread = threading.Thread(target=self._show, daemon=True) # Make sure we don't wait indefinitely after script ends
         blink_thread.start()
         
     def _show(self): 
@@ -65,4 +65,6 @@ class Blinker:
 if __name__ == '__main__':
     blinker = Blinker(float(sys.argv[1]), get_cpu_load, get_cpu_temp)
     blinker.show()
-    print("I'm doing stuff while it blinks!")
+    while True:
+        print("I'm doing stuff while it blinks!")
+        time.sleep(1)
