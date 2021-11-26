@@ -41,10 +41,11 @@ class Blinker:
         blinkt.set_clear_on_exit()
 
     def show(self):
-        for view in self.views:
-            view()
-            blinkt.show()
-            time.sleep(2)
+        while True:
+            for view in self.views:
+                view()
+                blinkt.show()
+                time.sleep(2)
 
 
 if __name__ == '__main__':
