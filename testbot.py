@@ -53,7 +53,7 @@ async def get_rules(ctx, subject):
 
 if rpi:
     bl = blinker.Blinker(.1, templates.DEFAULT)
-    blink = sys.argv[1]
+    blink = int(sys.argv[1])
     if blink:
         bl.show()
 bot.run(TOKEN)
