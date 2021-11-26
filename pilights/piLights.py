@@ -4,6 +4,7 @@ import sys
 import psutil
 import blinkt
 from subprocess import PIPE, Popen
+import threading
 
 def _get_cpu_temperature():
     process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE)
@@ -38,13 +39,24 @@ def get_cpu_temp():
 class Blinker:
 
     def __init__(self, brightness=0.1, *args) -> None:
-        self.views = [*args]
+        self.views = {"default": [*args]}
         blinkt.set_brightness(min(brightness, 1))
         blinkt.set_clear_on_exit()
+        self.mode = "default"
+
+    def set_view_mode(self, mode: str):
+        self.mode = mode
+
+    def add_views(self, mode_name, *views):
+        self.views[mode_name] = [*views]
 
     def show(self):
+        blink_thread = threading.Thread(target=self._show, daemon=True) # Make sure we don't wait indefinitely after script ends
+        blink_thread.start()
+        
+    def _show(self): 
         while True:
-            for view in self.views:
+            for view in self.views[self.mode]:
                 view()
                 blinkt.show()
                 time.sleep(2)
@@ -53,3 +65,4 @@ class Blinker:
 if __name__ == '__main__':
     blinker = Blinker(float(sys.argv[1]), get_cpu_load, get_cpu_temp)
     blinker.show()
+    print("I'm doing stuff while it blinks!")
