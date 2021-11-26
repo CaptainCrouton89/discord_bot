@@ -1,5 +1,6 @@
 import time
 import os
+import sys
 import psutil
 import blinkt
 from subprocess import PIPE, Popen
@@ -36,9 +37,9 @@ def get_cpu_temp():
 
 class Blinker:
 
-    def __init__(self, *args) -> None:
+    def __init__(self, brightness=0.1, *args) -> None:
         self.views = [*args]
-        blinkt.set_brightness(0.1)
+        blinkt.set_brightness(min(brightness, 1))
         blinkt.set_clear_on_exit()
 
     def show(self):
@@ -50,5 +51,5 @@ class Blinker:
 
 
 if __name__ == '__main__':
-    blinker = Blinker(get_cpu_load, get_cpu_temp)
+    blinker = Blinker(sys.argv[0], get_cpu_load, get_cpu_temp)
     blinker.show()
