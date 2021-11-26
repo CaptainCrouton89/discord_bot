@@ -1,9 +1,12 @@
 import os
 import discord
 from discord.ext import commands
-import pilights
-from pilights import blinker, templates
-
+try:
+    from pilights import blinker, templates
+    rpi = True
+except:
+    print("pilights import failure: will not run custom R-Pi functionalities")
+    rpi = False
 
 TOKEN = 'OTEzNTc5NzcyOTMwNTcyMzM4.YaAjdw.rwtMNy1zGdQCrdRHelhpwtnbeo0'
 
@@ -35,21 +38,20 @@ async def get_rules(ctx, subject):
     - all: link to pdf
     - currency
     """
+    subject = subject.lower()
     if subject == "all":
         await ctx.send("https://drive.google.com/file/d/1dxcwnfamLW_zkCMTr0z1o3g2evCAQcen/view?usp=sharing")
-    elif subject == "currency":
-        await ctx.send(file=discord.File(r'rules/currency.txt'))
-        # await ctx.send(str(_get_rules("currency")))
+    else:
+        try:
+            await ctx.send(file=discord.File(rf'rules/{subject}.md'))
+        except:
+            all_subjects = [section.replace(".md", "") for section in os.listdir("rules")]
+            all_subjects_text = ', '.join(all_subjects)
+            print(all_subjects_text)
+            await ctx.send(f"Rules on `{subject}` could not be found. Try a subject in the following list: ```{all_subjects_text}```")
 
-def _get_rules(file):
-    return _get_text("rules", file)
 
-def _get_text(dir, file):
-    with open(f'{dir}/{file}.txt') as f:
-        lines = f.readlines()
-    lines = str(lines).replace(r'\n', "\n".replace(r'\t', "    "))
-    return "```" + lines.strip("[]") + "```"
-
-bl = blinker.Blinker(.1, templates.DEFAULT)
-bl.show()
+if rpi:
+    bl = blinker.Blinker(.1, templates.DEFAULT)
+    bl.show()
 bot.run(TOKEN)
