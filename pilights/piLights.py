@@ -51,7 +51,7 @@ class Blinker:
         self.views[mode_name] = [*views]
 
     def show(self):
-        blink_thread = threading.Thread(target=self._show, daemon=True) # Make sure we don't wait indefinitely after script ends
+        blink_thread = threading.Thread(target=self._show) # Make sure we don't wait indefinitely after script ends
         blink_thread.start()
         
     def _show(self): 
