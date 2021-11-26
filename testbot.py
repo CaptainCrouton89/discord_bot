@@ -9,7 +9,8 @@ except:
     print("pilights import failure: will not run custom R-Pi functionalities")
     rpi = False
 
-TOKEN = 'OTEzNTc5NzcyOTMwNTcyMzM4.YaAjdw.rwtMNy1zGdQCrdRHelhpwtnbeo0'
+with open("discord.key") as f:
+    TOKEN = f.readline()
 
 description = '''HeartRushBot -- A tool for playing and understanding Heart Rush more-better :)'''
 bot = commands.Bot(command_prefix='!', description=description)
