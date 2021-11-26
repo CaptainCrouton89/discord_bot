@@ -51,4 +51,5 @@ def _get_text(dir, file):
     return "```" + lines.strip("[]") + "```"
 
 blinker = pilights.Blinker(.1, pil_tmp.DEFAULT)
+blinker.show()
 bot.run(TOKEN)
