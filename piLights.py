@@ -31,7 +31,7 @@ def get_cpu_load():
     _show_graph(v, r=0, g=0)
 
 def get_cpu_temp():
-    v = _get_cpu_temperature()
+    v = _get_cpu_temperature() / 70.0
     print(v)
     _show_graph(v, g=0, b=0)
 
