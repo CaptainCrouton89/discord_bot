@@ -45,3 +45,8 @@ class Blinker:
             view()
             blinkt.show()
             time.sleep(2)
+
+
+if __name__ == '__main__':
+    blinker = Blinker(get_cpu_load, get_cpu_temp)
+    blinker.show()
