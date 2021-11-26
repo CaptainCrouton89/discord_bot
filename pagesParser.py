@@ -1,4 +1,5 @@
 import requests, PyPDF2
+import fitz
 
 def get_text(pdf, page_num, encrypted=False):
     if pdf.isEncrypted:
@@ -12,6 +13,6 @@ def get_text(pdf, page_num, encrypted=False):
 # with open("my_pdf.pdf", 'wb') as my_data:
 #     my_data.write(my_raw_data)
 
-open_pdf_file = open("Heart Rush.pdf", 'rb')
-pdf = PyPDF2.PdfFileReader(open_pdf_file)
-print(get_text(pdf, 2))
+doc = fitz.open("Heart Rush.pdf", 'rb')
+page = doc[2]
+print(page)
