@@ -45,9 +45,8 @@ async def get_rules(ctx, subject):
         try:
             await ctx.send(file=discord.File(rf'rules/{subject}.md'))
         except:
-            all_subjects = [section.replace(".md", "") for section in os.listdir("rules")]
+            all_subjects = sorted([section.replace(".md", "") for section in os.listdir("rules")])
             all_subjects_text = ', '.join(all_subjects)
-            print(all_subjects_text)
             await ctx.send(f"Rules on `{subject}` could not be found. Try a subject in the following list: ```{all_subjects_text}```")
 
 
