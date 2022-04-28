@@ -2,7 +2,7 @@ import os
 import sys
 import discord
 import  difflib
-import markdown
+import re
 from discord.ext import commands
 try:
     from pilights import blinker, templates
@@ -11,7 +11,8 @@ except:
     print("pilights import failure: will not run custom R-Pi functionalities")
     rpi = False
 
-with open("discord.key") as f:
+KEY = __file__.replace("testbot.py", "discord.key")
+with open(KEY) as f:
     TOKEN = f.readline()
 
 ALARIA_WIKI = "/Users/silasrhyneer/Documents/AlariaWiki/wiki"
@@ -26,7 +27,10 @@ def find_page(query):
         if (".DS_Store" in path) or ("img" in path) or (".git" in path): continue
         wiki_files.add(filename.replace(".md", ""))
 
-    return difflib.get_close_matches(query, wiki_files)[0] + ".md"
+    matches = difflib.get_close_matches(query, wiki_files)
+    if not matches:
+        return None
+    return matches[0] + ".md"
 
 @bot.event
 async def on_ready():
@@ -68,18 +72,15 @@ async def get_rules(ctx, subject):
 async def wiki(ctx, subject):
     """Query the wiki for information on a subject
     """
-    try:
-        page = find_page(subject)
-        print(page)
-        html = markdown.markdown(open(f'{ALARIA_WIKI}/{page}').read())
-        with open("tmp.html") as f:
-            f.write(html)
-        # print(html)
-        await ctx.send(html)
-        # await ctx.send(file=discord.File(rf'tmp.html'))
-    except:
-        all_subjects = sorted([section.replace(".md", "") for section in os.listdir("rules")])
-        await ctx.send(all_subjects)
+    page = find_page(subject)
+    if not page:
+        await ctx.send(f"I couldn't find <{subject}>. be better. ya *dumb* ***bitch***.")
+        return
+    with open(os.path.join(ALARIA_WIKI, page)) as f:
+        text = f.read()
+    text = re.sub(r"\[(.+)\]\(.+\)", r"\1", text)
+    await ctx.send(f"**{page}**\n```{text}```")
+    # await ctx.send(file=discord.File(rf'tmp.html'))
 
 
 if rpi:
